@@ -1,0 +1,33 @@
+.sidebar{
+    min-height: 100vh;
+    width: 240px;
+    position: fixed;
+    top: 117px;
+    padding: 10px;
+  }
+  
+  .sidebar>li{
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Inter';
+  }
+  
+  .sidebar__link{
+    display: flex;
+    align-items: center;
+    padding: 15px 24px;
+    border: 8px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    color: #b7b7b7;
+  }
+  
+  .sidebar__link:hover{
+    color: #1514ef;
+    background-color: #E7EDFF;
+  }
+  
+  .sidebar__icon{
+    font-size: 24px;
+    margin-right: 10px;
+  }

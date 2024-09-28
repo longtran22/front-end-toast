@@ -1,0 +1,28 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px;
+    box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+    position: relative;
+    z-index: 0;
+  }
+  
+  .header__right{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header__setting, .header__notify, .header__user {
+    margin-right: 20px;
+    cursor: pointer;
+    background-color: #a2a6b00d;
+    border-radius: 50%;
+    padding: 10px;
+    text-align: center;
+    color: red;
+    font-size: 28px;
+    width: 30px;
+    height: 30px;
+  }

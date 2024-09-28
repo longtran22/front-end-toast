@@ -43,7 +43,7 @@ function LoginModal({ off, isSignup }) {
   })
   .then(data => {
     console.log(data.user);
-    if(data.message=="User created successfully")  navigate('/success');else{
+    if(data.message=="User created successfully")  navigate('/home');else{
       setError(data.message)
     }
   })
@@ -69,7 +69,7 @@ function LoginModal({ off, isSignup }) {
     })
     .then(data => {
       console.log(data.user);
-      if(data.message=="Login successful")  navigate('/success');else{
+      if(data.message=="Login successful")  navigate('/home');else{
         setError("email hoặc mật khẩu của bạn không hợp lệ")
       }
     })
@@ -100,7 +100,7 @@ function LoginModal({ off, isSignup }) {
       )
       .then((a)=>{
         console.log(a.user);
-          if(a.message=="Login successful")  navigate('/success');else{
+          if(a.message=="Login successful")  navigate('/home');else{
             setError("email hoặc mật khẩu của bạn không hợp lệ")
           }
       })
