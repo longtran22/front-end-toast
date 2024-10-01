@@ -99,7 +99,7 @@ function LoginModal({ off, isSignup }) {
         .then(response => response.json()
       )
       .then((a)=>{
-        console.log(a.user);
+        console.log(a);
           if(a.message=="Login successful")  navigate('/home');else{
             setError("email hoặc mật khẩu của bạn không hợp lệ")
           }
