@@ -1,0 +1,64 @@
+.inner-pro{
+  width: calc(100%/3 - 13.5px);
+  position: relative;
+  aspect-ratio: 6/7;
+  text-align: center;
+  background-color: #222831;
+  color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  border: none;
+  margin-bottom: 24px;
+}
+
+.inner-pro .img{
+  background-color: #f1f2f3;
+  border-radius: 0 0 0 45px;
+  height: 215px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inner-pro .img img{
+  width: auto;
+  height: 150px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.inner-pro:hover img{
+  transform: scale(1.1);
+}
+
+.inner-pro .content{
+  text-align: left;
+  margin-left: 25px;
+  margin-top: 30px;
+}
+
+.inner-pro .content .title{
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.inner-pro .content .sale{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 25px;
+}
+
+.menu .container .content .sale i{
+  display: inline-block;
+  padding: 10px; /* Điều chỉnh padding để phù hợp */
+  border-radius: 50%; /* Tạo hình tròn */
+  text-align: center; /* Căn chỉnh icon ở giữa */
+}
+
+
+.inner-pro .sale a .btn{
+  border-radius: 50%;
+  padding: 10px;
+}
