@@ -11,7 +11,9 @@ function LayoutDefault(){
       </div>
       <main>
         <Sidebar />
-        <Outlet className="main__content"/>
+        <div className="main__content">
+          <Outlet/>
+        </div>
       </main>
       {/* <footer>Footer</footer> */}
     </>

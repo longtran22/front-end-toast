@@ -6,6 +6,7 @@ import facebook from '../introduce/facebook.png';
 import {jwtDecode} from 'jwt-decode';
 import  { useNavigate }  from 'react-router-dom';
 function LoginModal({ off, isSignup }) {
+  var data
   // Sử dụng state để điều khiển hiển thị modal và form
   const [error,setError]=useState('')
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ function LoginModal({ off, isSignup }) {
     
   }
   //google
-  const responseMessage = (response) => {
+const responseMessage = (response) => {
     const credential = response.credential;
     const decoded = jwtDecode(credential);
     const body={
@@ -100,8 +101,8 @@ function LoginModal({ off, isSignup }) {
       )
       .then((a)=>{
         console.log(a.user);
-          if(a.message=="Login successful")  navigate('/home');else{
-            setError("email hoặc mật khẩu của bạn không hợp lệ")
+          if(a.message=="Login successful")  {navigate('/home');return a;}else{
+            setError("email hoặc mật khẩu của bạn không hợp lệ");return;
           }
       })
         .catch(error => {
@@ -233,5 +234,4 @@ function LoginModal({ off, isSignup }) {
       </GoogleOAuthProvider>
     )
 }
-
 export default LoginModal;
