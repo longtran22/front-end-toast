@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Modal.css'; 
 import { FaRegUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Modal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,9 +37,11 @@ const Modal = () => {
             </div>
           </div>
           <div className="menu-items">
-            <div className="menu-item">
-              <i className="icon fa fa-user"></i> View Profile
-            </div>
+            <Link to="/home/profile">    
+              <div className="menu-item">
+                <i className="icon fa fa-user"></i> View Profile
+              </div>
+            </Link>
             <div className="menu-item">
               <i className="icon fa fa-cog"></i> Account Settings
             </div>

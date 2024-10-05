@@ -26,6 +26,7 @@ import Page404 from './pages/Page404';
 import Import from './pages/Import';
 import Export from './pages/Export';
 import Main  from './components/introduce/Main_intro.js'
+import Profile from './pages/Profile/index.js';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
       <Route path="/" element={<Main />} /> 
         <Route path='/home' element={<LayoutDefault/>}>
           <Route path='/home' element={<Home/>}/>
+          <Route path='profile' element={<Profile/>}/>
           <Route path = 'manage-product' element={<ManageProduct/>}/>
           <Route path = 'import' element={<Import/>}/>
           <Route path = 'export' element={<Export/>}/>
