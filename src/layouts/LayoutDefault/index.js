@@ -11,9 +11,10 @@ function LayoutDefault(){
       </div>
       <main>
         <Sidebar />
-        <div className="main__content">
-          <Outlet/>
+        <div style={{width:"80%"}}>
+<Outlet className="main__content"/>
         </div>
+        
       </main>
       {/* <footer>Footer</footer> */}
     </>

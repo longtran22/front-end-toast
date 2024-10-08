@@ -4,8 +4,9 @@ import { FaFacebook } from "react-icons/fa";
 import { SiShopee } from "react-icons/si";
 import { FaPhoneAlt } from "react-icons/fa";
 import './Profile.css';
-
+import  { useAuth }  from '../../components/introduce/useAuth'
 function Profile() {
+  const { user, logout } = useAuth();
   return (
     <div className="profile-container">
       <div className="profile-header">
@@ -21,7 +22,7 @@ function Profile() {
           />
         </div>
         <div className="profile-info">
-          <div className="profile-info__name">Ten nguoi dung</div>
+          <div className="profile-info__name">{user.name}</div>
           <p>Dia chi cua hang</p>
 
           <button className="message-btn">Edit Profile</button>
@@ -41,7 +42,7 @@ function Profile() {
 
       <div className="profile-logout">
         <a href="/">
-            <button className="message-btn logout">
+            <button className="message-btn logout" onClick={logout}>
             Logout
             </button>
         </a>

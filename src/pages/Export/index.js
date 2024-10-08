@@ -1,7 +1,8 @@
+import OrderManagement from '../../components/test/index'
 function Export(){
     return(
       <>
-        Export
+        <OrderManagement />
       </>
     )
   }

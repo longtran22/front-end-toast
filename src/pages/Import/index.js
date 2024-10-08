@@ -1,7 +1,8 @@
+
 function Import(){
     return(
       <>
-        Import
+       <h1>Import</h1>
       </>
     )
   }

@@ -1,114 +1,133 @@
 import React, { useState } from "react";
 import "./intro.css";
+import Cookies from 'js-cookie';
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { FacebookProvider, LoginButton } from 'react-facebook';
 import facebook from '../introduce/facebook.png';
 import {jwtDecode} from 'jwt-decode';
 import  { useNavigate }  from 'react-router-dom';
+import {useAuth} from '../introduce/useAuth'
+
 function LoginModal({ off, isSignup }) {
   var data
   // Sử dụng state để điều khiển hiển thị modal và form
   const [error,setError]=useState('')
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     ...(isSignup && { username: "", confirmPassword: "" }), // Thêm confirmPassword nếu là đăng ký
   });
-
-
   // const isFormValid = formData.email && formData.password;
   const handleChange = (e) => {
     setError('');
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const submit_log=(e)=>{
-    e.preventDefault()
-    if(isSignup) {
-      if(formData.password!=formData.confirmPassword){setError("mật khẩu khác với xác nhận mật khẩu")}else{
-              const body={
-      email:formData.email,
-      password:formData.password,
-      name:formData.username,
-  }
-  console.log(body)
-  fetch("http://localhost:5000/login/sign_up", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body)
-  })
-  .then(response => {
-      return response.json();
-  })
-  .then(data => {
-    console.log(data.user);
-    if(data.message=="User created successfully")  navigate('/home');else{
-      setError(data.message)
-    }
-  })
-  .catch(error => {
-      console.error('Lỗi:', error);
-  });
-      }
-}else{
-      const body={
-        email:formData.email,
-        password:formData.password
-    }
-    console.log(body)
-    fetch("http://localhost:5000/login/login_raw", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body)
-    })
-    .then(response => {
-        return response.json();
-    })
-    .then(data => {
-      console.log(data.user);
-      if(data.message=="Login successful")  navigate('/home');else{
-        setError("email hoặc mật khẩu của bạn không hợp lệ")
-      }
-    })
-    .catch(error => {
-        console.error('Lỗi:', error);
-    });
-    }
-    
-  }
-  //google
-const responseMessage = (response) => {
-    const credential = response.credential;
-    const decoded = jwtDecode(credential);
-    const body={
-      family_name:decoded.family_name,
-      given_name:decoded.given_name,
-      GoogleID:decoded.sub
-      }
-      console.log(JSON.stringify(body))
-      fetch("http://localhost:5000/login/login_google", {
+  const submit_log = (e) => {
+    e.preventDefault();
+    if (isSignup) {
+      if (formData.password !== formData.confirmPassword) {
+        setError("Mật khẩu khác với xác nhận mật khẩu");
+      } else {
+        const body = {
+          email: formData.email,
+          password: formData.password,
+          name: formData.username,
+        };
+        console.log(body);
+        fetch("http://localhost:5000/login/sign_up", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body),
         })
-        .then(response => response.json()
-      )
-      .then((a)=>{
-        console.log(a);
-          if(a.message=="Login successful")  {navigate('/home');return a;}else{
-            setError("email hoặc mật khẩu của bạn không hợp lệ");return;
-          }
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.user);
+            if (data.message === "User created successfully") {
+              // Lưu dữ liệu user vào Cookies
+              Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
+              login(data.user)
+              navigate('/home');
+            } else {
+              setError(data.message);
+            }
+          })
+          .catch((error) => {
+            console.error('Lỗi:', error);
+          });
+      }
+    } else {
+      const body = {
+        email: formData.email,
+        password: formData.password,
+      };
+      console.log(body);
+      fetch("http://localhost:5000/login/login_raw", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
       })
-        .catch(error => {
-            console.log("lỗi : ",error)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data.user);
+          if (data.message === "Login successful") {
+            // Lưu dữ liệu user vào Cookies
+            Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
+            login(data.user)
+            navigate('/home');
+          } else {
+            setError("Email hoặc mật khẩu của bạn không hợp lệ");
+          }
+        })
+        .catch((error) => {
+          console.error('Lỗi:', error);
         });
+    }
   };
+  
+  
+  //google
+  const responseMessage = (response) => {
+    const credential = response.credential;
+    const decoded = jwtDecode(credential);
+    console.log(decoded)
+    const body = {
+      family_name: decoded.family_name,
+      given_name: decoded.given_name,
+      GoogleID: decoded.sub,
+      email: decoded.email,
+    };
+    console.log(JSON.stringify(body));
+    fetch("http://localhost:5000/login/login_google", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.message === "Login successful"||data.message === "User created successfully") {
+          // Lưu dữ liệu user vào Cookies
+          Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
+          login(data.user)
+          navigate('/home');
+        } else {
+          setError("Email hoặc mật khẩu của bạn không hợp lệ");
+        }
+      })
+      .catch((error) => {
+        console.log("Lỗi:", error);
+      });
+  };
+  
+
   const errorMessage = (error) => {
     console.log(error);
   };
@@ -130,6 +149,7 @@ const responseMessage = (response) => {
                 &times;
               </span>
             </div>
+            
             <p>
               By continuing, you agree to our <a href="#">User Agreement</a> and
               acknowledge that you understand the <a href="#">Privacy Policy</a>
