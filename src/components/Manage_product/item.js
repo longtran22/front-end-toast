@@ -3,30 +3,11 @@ import React,{useState,useEffect} from "react";
 import "../Manage_product/item.css";
 import { useAuth } from "../introduce/useAuth";
 import ProductDetail from "./Product_detail"
-const ProductGrid = ({ selectedCategory ,reload, searchTerm}) => {
+const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) => {
   const { user ,loading} = useAuth();
   const[products,setProducts] = useState([])
   const[product,setProduct] = useState()
   const[x,setX] = useState()
-    // Dữ liệu giả định cho các sản phẩm
-    // const products = [
-    //   { id: 1, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 8, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 9, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 10, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 11, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 12, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 13, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 14, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 15, name: 'Sản phẩm 1', category: 'Dấu',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 2, name: 'Sản phẩm 2', category: 'Hằng',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 3, name: 'Sản phẩm 3', category: 'Hạng',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 4, name: 'Sản phẩm 4', category: 'Nâng',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 5, name: 'Sản phẩm 5', category: 'Dẫn dắt',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 6, name: 'Sản phẩm 6', category: 'Đường',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 7, name: 'Sản phẩm 7', category: 'Dẫn vào',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' },
-    //   { id: 16, name: 'Sản phẩm 2', category: 'Hằng',image:'https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvmsy4z9mq6p19.webp' }
-    // ];
     useEffect(() => {
       const fetchProducts = async () => {
         if (loading) { console.log("Loading user data.");
@@ -95,14 +76,23 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm}) => {
       console.log("onClose")
       setProduct(false);
     }
-    let filteredProducts;
+    let filteredProducts= products.slice();
     if (selectedCategory) {
       filteredProducts = products.filter(product => product.category === selectedCategory);
-    } else {
-      filteredProducts = products;
-    }
+    } 
     if(searchTerm!=""){
-      filteredProducts = products.filter(product => product.name.toLowerCase().includes(searchTerm));
+      filteredProducts = filteredProducts.filter(product => product.name.toLowerCase().includes(searchTerm));
+    }
+    
+    if(sortByA=="Giá bán"){console.log(1)
+      filteredProducts.sort((a, b) => Number(a.price) - Number(b.price));
+    }else if(sortByA=="Giá nhập"){
+      filteredProducts.sort((a, b) => Number(a.purchasePrice) - Number(b.purchasePrice));
+    }else if(sortByA=="Tên"){
+      filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+    }
+    if(sortByB=="Từ cao đến thấp"){
+      filteredProducts.reverse()
     }
   const onUpdate=async(a)=>{
     console.log(a)
@@ -118,7 +108,7 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm}) => {
     });
     const data = await response.json();
     console.log(data)
-    if(data.message=="success") {alert(`Sản phẩm "${a.name}" đã được cập nhật thành công!`);setX("edit");}
+    if(data.message=="success") {alert(`Sản phẩm "${a.name}" đã được cập nhật thành công!`);setX("edit");setProduct(false)}
     else{alert("Thất bại")}
   }
     return (
