@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./ProductForm.css";
 import { useAuth } from "../introduce/useAuth";
-const ProductForm = ({turnoff}) => {
+const ProductForm = ({turnoff,refresh}) => {
     const { user,loading} = useAuth();
     const [error,setError]=useState('');
+    const [details,setDetails] = useState('');
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -29,12 +30,16 @@ const ProductForm = ({turnoff}) => {
       [name]: value,
     });
   };
-
+ const handleChangedetails=(e)=>{
+    const {  value } = e.target;
+    setDetails(value);
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     const body = {
 user:user,
-newPr:{...formData}
+newPr:{...formData},
+detail:details
     };
     console.log(JSON.stringify(body));
     fetch("http://localhost:5000/products/create", {
@@ -47,7 +52,7 @@ newPr:{...formData}
       .then((response) => response.json())
       .then((data) => {
         console.log(data.message)
-      if(data.message==="Success"){turnoff();  alert("Sản phẩm đã được thêm thành công!");window.location.reload();}
+      if(data.message==="Success"){turnoff();  alert("Sản phẩm đã được thêm thành công!");refresh();}
       else{setError("SKUD bạn điền đã xuất hiện ở sản phẩm khác")}
       })
       .catch((error) => {
@@ -138,6 +143,10 @@ newPr:{...formData}
             <div className="form-group">
                 <label htmlFor="notes">Notes</label>
                 <textarea id="notes" name="notes" value={formData.notes} onChange={handleChange}></textarea>
+            </div>
+            <div className="form-group">
+                <label htmlFor="details">Thông tin chi tiết về thêm sản phẩm </label>
+                <textarea id="details" name="details" value={details} onChange={handleChangedetails}></textarea>
             </div>
         </div>
         <p style={{color:"red"}}>{error}</p>

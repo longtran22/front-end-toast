@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import "../Manage_product/index.css"; // Để tạo kiểu
 import ProductGrid from "./item.js";
 import ProductForm from '../../components/Manage_product/ProductForm';
@@ -9,12 +9,12 @@ const ProductManager = () => {
   const [unselectedCategory, unsetSelectedCategory] = useState('');
   const [a, setA] = useState(false);
   const [b, setB] = useState(false);
+  const [c, setC] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortByA, setSortByA] = useState("default"); // Mặc định
   const [sortByB, setSortByB] = useState("Từ thấp lên cao"); // Mặc định
   const categoriesRef = useRef(null);
   const scrollAmount = 125 * 3;
-
   const handleScrollLeft = () => {
     if (categoriesRef.current) {
       categoriesRef.current.scrollBy({
@@ -48,10 +48,18 @@ const ProductManager = () => {
   const reload_categorie = (a) => {
     setCategories(a);
   };
-
+  const refresh=()=>{
+ setC(false);
+  }
+  useEffect(() => {
+    if (!c) {
+      // Khi C được set về false, sau một thời gian ngắn, set lại về true
+      setTimeout(() => setC(true), 100); // Có thể thay đổi thời gian tùy ý
+    }
+  }, [c]);
   return (
     <div className="product-manager">
-      {a && <ProductForm turnoff={turnoffA} />}
+      {a && <ProductForm turnoff={turnoffA} refresh={refresh}/>}
       {b && <History turnoff={turnoffB} />}
       <div className="x">
               <div className="filter-bar">
@@ -116,7 +124,7 @@ const ProductManager = () => {
 
 
       {/* Hiển thị grid sản phẩm */}
-      <ProductGrid selectedCategory={selectedCategory} reload={reload_categorie} searchTerm={searchTerm} sortByA={sortByA} sortByB={sortByB}/>
+      {c&&<ProductGrid  selectedCategory={selectedCategory} reload={reload_categorie} searchTerm={searchTerm} sortByA={sortByA} sortByB={sortByB}/>}
     </div>
   );
 };

@@ -3,11 +3,13 @@ import React,{useState,useEffect} from "react";
 import "../Manage_product/item.css";
 import { useAuth } from "../introduce/useAuth";
 import ProductDetail from "./Product_detail"
+import DeleteProductModal from "./Form_delete"
 const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) => {
   const { user ,loading} = useAuth();
   const[products,setProducts] = useState([])
   const[product,setProduct] = useState()
   const[x,setX] = useState()
+  const [fdelete,SetFdelete]=useState(false)
     useEffect(() => {
       const fetchProducts = async () => {
         if (loading) { console.log("Loading user data.");
@@ -54,9 +56,7 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) =>
       const data = await response.json();
       setProduct({...data})
     }
-    const dlt=async (a)=>{
-      const isConfirmed = window.confirm(`Bạn có chắc chắn muốn xóa sản phẩm "${a.name}" không?`);
-      if (isConfirmed) {
+    const onDelete=async (a,b)=>{
         const response = await fetch('http://localhost:5000/products/deletes', {
           method: 'POST',
           headers: {
@@ -64,17 +64,19 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) =>
           },
           body: JSON.stringify({
             user:user,
-            product_delete:a
+            product_delete:a,
+            detail:b
           }),
         });
         const data = await response.json();
-        if(data.message=="Product deleted successfully") {alert(`Sản phẩm "${a.name}" đã được xóa thành công!`);setX("delete");}
+        if(data.message=="Product deleted successfully") {alert(`Sản phẩm "${a.name}" đã được xóa thành công!`);setX((a)=>{if(a=="edit") return "";else{return "edit"}} );}
         else{alert("Thất bại")}
-      }
     }
     const onClose=()=>{
-      console.log("onClose")
       setProduct(false);
+    }
+    const onClose2=()=>{
+      SetFdelete(false);
     }
     let filteredProducts= products.slice();
     if (selectedCategory) {
@@ -94,8 +96,7 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) =>
     if(sortByB=="Từ cao đến thấp"){
       filteredProducts.reverse()
     }
-  const onUpdate=async(a)=>{
-    console.log(a)
+  const onUpdate=async(a,b)=>{
     const response = await fetch('http://localhost:5000/products/edit', {
       method: 'POST',
       headers: {
@@ -103,17 +104,18 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) =>
       },
       body: JSON.stringify({
         user:user,
-        product_edit:a
+        product_edit:a,
+        detail:b
       }),
     });
     const data = await response.json();
-    console.log(data)
-    if(data.message=="success") {alert(`Sản phẩm "${a.name}" đã được cập nhật thành công!`);setX("edit");setProduct(false)}
+    if(data.message=="success") {alert(`Sản phẩm "${a.name}" đã được cập nhật thành công!`);setX((a)=>{if(a=="edit") return "";else{return "edit"}} );setProduct(false)}
     else{alert("Thất bại")}
   }
     return (
       <>
       {product&& <ProductDetail product={product} onClose={onClose} onUpdate={onUpdate}/>}
+      {fdelete&& <DeleteProductModal product={fdelete} onClose2={onClose2} onDelete={(a,b)=>onDelete(a,b)}/>}
       <div className="product-grid">
         {filteredProducts.map((product,index) => (
           <div className="item" key={index}>
@@ -122,7 +124,7 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) =>
               <h3 className="product-name">{product.name}</h3>
               <div className="actions">
                 <button className="action-button edit-button" onClick={()=>show(product._id)}>chi tiết</button>
-                <button className="action-button delete-button" onClick={()=>dlt(product)}>Xóa</button>
+                <button className="action-button delete-button" onClick={()=>SetFdelete(product)}>Xóa</button>
               </div>
             </div>
           </div>

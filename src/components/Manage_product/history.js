@@ -33,6 +33,7 @@ useEffect(()=>{
       }
 
       const data = await response.json();
+      console.log(data)
       setInitialOrders(data);
       ;}catch(error){
 console.log(error)
@@ -100,7 +101,7 @@ response();
             <th>Date</th>
             <th>Status</th>
             <th>Product</th>
-            <th>Actions</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
@@ -115,7 +116,7 @@ response();
               </td>
               <td>{order.product}</td>
               <td>
-
+              {order.details}
               </td>
             </tr>
           ))}
