@@ -1,8 +1,8 @@
-
+import ImageUpload from "../../components/Manage_product/image"
 function Import(){
     return(
       <>
-       <h1>Import</h1>
+        <ImageUpload />
       </>
     )
   }

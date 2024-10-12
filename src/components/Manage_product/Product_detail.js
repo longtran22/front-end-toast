@@ -50,6 +50,7 @@ const ProductDetail = ({ product, onClose, onUpdate }) => {
                         <p><strong>Unit:</strong> {products.unit}</p>
                         <p><strong>Purchase Price:</strong> ${products.purchasePrice}</p>
                         <p><strong>Notes:</strong> {products.notes}</p>
+                        <p><strong>Link image :</strong> {products.image?products.image.secure_url:""}</p>
                         <button className="edit-button-detail" onClick={handleEditToggle}>Edit</button>
                     </div>
                 ) : (
@@ -115,6 +116,10 @@ const ProductDetail = ({ product, onClose, onUpdate }) => {
                             <div className="form-group">
                                 <label htmlFor="notes">Notes</label>
                                 <textarea id="notes" name="notes" value={editData.notes} onChange={handleChange}></textarea>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="image">Image:</label>
+                                <textarea id="image" name="image" value={editData.image?editData.image.secure_url:""} onChange={handleChange}></textarea>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="detail">Thông tin chi tiết thay đổi</label>
