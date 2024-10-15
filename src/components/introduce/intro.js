@@ -7,11 +7,14 @@ import facebook from '../introduce/facebook.png';
 import {jwtDecode} from 'jwt-decode';
 import  { useNavigate }  from 'react-router-dom';
 import {useAuth} from '../introduce/useAuth'
-
+import Forgot_password from "./forgot_password"
+import Change_password from "./resetpassword"
 function LoginModal({ off, isSignup }) {
   var data
   // Sử dụng state để điều khiển hiển thị modal và form
   const [error,setError]=useState('')
+  const [isforgot,setIsforgot]=useState(false)
+  const [isreset,setIsreset]=useState(false)
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
@@ -139,7 +142,12 @@ function LoginModal({ off, isSignup }) {
   const handleError = (error) => {
     console.error(error); 
   };
-  return (
+  const forgot=()=>{
+setIsforgot(true);
+  }
+  return (<> 
+  {isreset&&<Change_password off={()=>{setIsreset(false)}} email={isreset}/>} 
+  {isforgot&&<Forgot_password off={()=>{setIsforgot(false)}} turnon={(email)=>{setIsreset(email)}}/>} 
       <GoogleOAuthProvider clientId="1039484967279-b0uv9c8m0t6v453c7im8f0jiopq82v3j.apps.googleusercontent.com">
         <div className="login">
           <div className="login-modal">
@@ -234,7 +242,7 @@ function LoginModal({ off, isSignup }) {
               )}
 
               {!isSignup && (
-                <a href="#" className="forgot-password">
+                <a className="forgot-password" onClick={forgot} style={{cursor:"pointer"}}>
                   Forgot password?
                 </a>
               )}
@@ -246,12 +254,12 @@ function LoginModal({ off, isSignup }) {
 
             {!isSignup && (
               <p className="signup-text">
-                New to Reddit? <a style={{cursor:"pointer"}} onClick={()=>{off(2)}}>Sign Up</a>
+                New to Myapp? <a style={{cursor:"pointer"}} onClick={()=>{off(2)}}>Sign Up</a>
               </p>
             )}
           </div>
         </div>
-      </GoogleOAuthProvider>
+      </GoogleOAuthProvider>  </>
     )
 }
 export default LoginModal;

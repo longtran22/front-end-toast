@@ -1,8 +1,10 @@
-import ImageUpload from "../../components/Manage_product/image"
+// import ImageUpload from "../../components/Manage_product/image"
+// import Change_password from"../../components/introduce/resetpassword.js"
 function Import(){
     return(
       <>
-        <ImageUpload />
+        {/* <ImageUpload /> */}
+        {/* {<Change_password />} */}
       </>
     )
   }
