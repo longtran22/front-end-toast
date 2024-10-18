@@ -4,7 +4,9 @@ import "../Manage_product/item.css";
 import { useAuth } from "../introduce/useAuth";
 import ProductDetail from "./Product_detail"
 import DeleteProductModal from "./Form_delete"
+import {useLoading} from "../introduce/Loading"
 const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) => {
+  const { startLoading, stopLoading } = useLoading();
   const { user ,loading} = useAuth();
   const[products,setProducts] = useState([])
   const[product,setProduct] = useState()
@@ -12,10 +14,11 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) =>
   const [fdelete,SetFdelete]=useState(false)
     useEffect(() => {
       const fetchProducts = async () => {
-        if (loading) { console.log("Loading user data.");
-          return <div>Loading user data...</div>; // Hiển thị khi đang tải dữ liệu người dùng
+        if (loading) { 
+          startLoading();
+          return;
         }
-        try {console.log("render")
+        try {console.log("render");startLoading();
           const response = await fetch('http://localhost:5000/products/show', {
             method: 'POST',
             headers: {
@@ -37,6 +40,7 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) =>
           }
           reload(o);
           setProducts(data);
+          stopLoading()
         } catch (error) {
           console.error("Lỗi khi gọi API:", error);
         }

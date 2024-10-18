@@ -3,7 +3,9 @@ import "../Manage_product/index.css"; // Để tạo kiểu
 import ProductGrid from "./item.js";
 import ProductForm from '../../components/Manage_product/ProductForm';
 import History from "../../components/Manage_product/history.js"
+import {useLoading} from "../introduce/Loading"
 const ProductManager = () => {
+  const { startLoading, stopLoading } = useLoading();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [unselectedCategory, unsetSelectedCategory] = useState('');
@@ -32,7 +34,6 @@ const ProductManager = () => {
       });
     }
   };
-
   const turnonA = () => {
     setA(true);
   };
@@ -53,13 +54,13 @@ const ProductManager = () => {
   }
   useEffect(() => {
     if (!c) {
-      // Khi C được set về false, sau một thời gian ngắn, set lại về true
-      setTimeout(() => setC(true), 100); // Có thể thay đổi thời gian tùy ý
+      startLoading();
+      setTimeout(() => {setC(true);stopLoading()}, 100); // Có thể thay đổi thời gian tùy ý
     }
   }, [c]);
   return (
     <div className="product-manager">
-      {a && <ProductForm turnoff={turnoffA} refresh={refresh}/>}
+      {a && <ProductForm turnoff={turnoffA} refresh={refresh} />}
       {b && <History turnoff={turnoffB} />}
       <div className="x">
               <div className="filter-bar">

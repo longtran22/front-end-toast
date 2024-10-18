@@ -1,6 +1,8 @@
 import "./forgot_password.css"
 import { useState } from "react";
+import {useLoading} from '../introduce/Loading'
 const Forgot_password=({off,turnon})=>{
+  const {startLoading,stopLoading}=useLoading();
     const [email,SetEmail]=useState("")
     const [ma,SetMa]=useState("")
     const [error,SetError]=useState("")
@@ -12,6 +14,7 @@ const Forgot_password=({off,turnon})=>{
       const body = {
         email:email,
       };
+      startLoading();
       fetch("http://localhost:5000/login/forgot_password", {
         method: "POST",
         headers: {
@@ -20,7 +23,7 @@ const Forgot_password=({off,turnon})=>{
         body: JSON.stringify(body),
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then((data) => {stopLoading()
       if(data.message==='Mã xác nhận đã được gửi đến email của bạn!'){
         SetColor('green')
         SetA(true)      
@@ -38,6 +41,7 @@ const Forgot_password=({off,turnon})=>{
         email:email,
         ma:ma
       };
+      startLoading()
       fetch("http://localhost:5000/login/change_password", {
         method: "POST",
         headers: {
@@ -46,10 +50,37 @@ const Forgot_password=({off,turnon})=>{
         body: JSON.stringify(body),
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then((data) => {stopLoading();
 if(data.message==='Success'){off();turnon(email)}else{
   SetError2(data.message)
 }
+        })
+        .catch((error) => {
+          console.error('Lỗi:', error);
+        });
+    }
+    const sentagain=()=>{
+      SetA(false)
+      SetError("")
+      const body = {
+        email:email,
+      };
+      startLoading();
+      fetch("http://localhost:5000/login/forgot_password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      })
+        .then((response) => response.json())
+        .then((data) => {stopLoading()
+      if(data.message==='Mã xác nhận đã được gửi đến email của bạn!'){
+        SetColor('green')
+        SetA(true)      
+      }else{
+        SetColor('red')
+      }SetError(data.message)
         })
         .catch((error) => {
           console.error('Lỗi:', error);
@@ -83,7 +114,7 @@ if(data.message==='Success'){off();turnon(email)}else{
           <button id="login-btn" type="submit">
                  Xác nhận
               </button>
-             {a&&(<p style={{marginTop:"5px",cursor:"pointer",textAlign:"center"}}>Gửi lại mã</p>)}
+             {a&&(<p className="sentagain" onClick={sentagain}>Gửi lại mã</p>)}
         </div>
         
         <p style={{color:color,padding:"10px 0px"}}>{error}</p></form>

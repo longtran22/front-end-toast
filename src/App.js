@@ -30,9 +30,11 @@ import Profile from './pages/Profile/index.js';
 
 import ProtectedRoute from "../src/components/introduce/protect.js";
 import Cookies from 'js-cookie';
+import {Loading} from './components/introduce/Loading.js'
 function App() {
   return (
     <>
+    <Loading />
       <Routes>
       <Route path="/" element={<Main />} /> 
         <Route path='/home' element={

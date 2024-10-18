@@ -36,7 +36,7 @@ const ProductDetail = ({ product, onClose, onUpdate }) => {
                 <span className="close-button" onClick={onClose}>&times;</span>
                 {!isEditing ? (
                     <div className="product-info">
-                        <h2>{products.name}</h2>
+                        <h2>name : {products.name}</h2>
                         <p><strong>Category:</strong> {products.category}</p>
                         <p><strong>Brand:</strong> {products.brand}</p>
                         <p><strong>SKU:</strong> {products.sku}</p>
