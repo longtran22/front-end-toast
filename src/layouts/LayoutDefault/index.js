@@ -11,7 +11,7 @@ function LayoutDefault(){
       </div>
       <main>
         <Sidebar />
-        <div style={{width:"80%"}}>
+        <div style={{width:"80%",marginLeft:"20%"}}>
 <Outlet className="main__content"/>
         </div>
         
