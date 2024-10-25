@@ -1,8 +1,8 @@
-import OrderManagement from '../../components/test/index'
+import Billing from '../../components/test/form'
 function Export(){
     return(
       <>
-        <OrderManagement />
+        <Billing />
       </>
     )
   }

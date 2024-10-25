@@ -68,12 +68,12 @@ const ProductForm = ({turnoff,refresh}) => {
     description: "",
     sku: "",
     price: "",
-    stock: 0,
+    stock_in_shelf: 0,
     reorderLevel: 10,
     supplier: "",
     purchaseDate: "",
     location: "",
-    status: "in_stock",
+    stock_in_Warehouse: 0,
     unit: "pcs",
     purchasePrice: "",
     notes: "",
@@ -185,77 +185,73 @@ detail:details
     <form onSubmit={handleSubmit}>
         <div className="form-row">
             <div className="form-group">
-                <label htmlFor="name">Name *</label>
+                <label htmlFor="name">Tên hàng hóa *</label>
                 <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
             </div>
             <div className="form-group">
-                <label htmlFor="category">Category *</label>
+                <label htmlFor="category">Loại hàng hóa *</label>
                 <input type="text" id="category" name="category" value={formData.category} onChange={handleChange} required />
             </div>
         </div>
 
         <div className="form-row">
             <div className="form-group">
-                <label htmlFor="brand">Brand</label>
+                <label htmlFor="brand">Thương hiệu</label>
                 <input type="text" id="brand" name="brand" value={formData.brand} onChange={handleChange} />
             </div>
             <div className="form-group">
-                <label htmlFor="sku">SKU *</label>
+                <label htmlFor="sku">Mã *</label>
                 <input type="text" id="sku" name="sku" value={formData.sku} onChange={handleChange} required />
             </div>
         </div>
 
         <div className="form-row">
             <div className="form-group">
-                <label htmlFor="price">Price *</label>
+                <label htmlFor="price">Giá bán *</label>
                 <input type="text" id="price" name="price" value={formData.price} onChange={handleChange} required />
             </div>
             <div className="form-group">
-                <label htmlFor="purchasePrice">Purchase Price</label>
+                <label htmlFor="purchasePrice">Giá nhập</label>
                 <input type="text" id="purchasePrice" name="purchasePrice" value={formData.purchasePrice} onChange={handleChange} />
             </div>
         </div>
 
         <div className="form-row">
             <div className="form-group">
-                <label htmlFor="stock">Stock</label>
-                <input type="number" id="stock" name="stock" value={formData.stock} onChange={handleChange} />
+                <label htmlFor="stock_in_shelf">Số lượng trên kệ</label>
+                <input type="number" id="stock_in_shelf" name="stock_in_shelf" value={formData.stock_in_shelf} onChange={handleChange} />
             </div>
             <div className="form-group">
-                <label htmlFor="reorderLevel">Reorder Level</label>
+                <label htmlFor="reorderLevel">Thông báo cần nhập hàng nếu số lượng dưới:</label>
                 <input type="number" id="reorderLevel" name="reorderLevel" value={formData.reorderLevel} onChange={handleChange} />
             </div>
         </div>
 
         <div className="form-row">
             <div className="form-group">
-                <label htmlFor="supplier">Supplier</label>
+                <label htmlFor="supplier">Nhà cung cấp</label>
                 <input type="text" id="supplier" name="supplier" value={formData.supplier} onChange={handleChange} />
             </div>
             <div className="form-group">
-                <label htmlFor="purchaseDate">Purchase Date</label>
+                <label htmlFor="purchaseDate">Ngày nhập hàng</label>
                 <input type="date" id="purchaseDate" name="purchaseDate" value={formData.purchaseDate} onChange={handleChange} />
             </div>
         </div>
 
         <div className="form-row">
             <div className="form-group">
-                <label htmlFor="location">Location</label>
+                <label htmlFor="location">Vị trí</label>
                 <input type="text" id="location" name="location" value={formData.location} onChange={handleChange} />
             </div>
             <div className="form-group">
-                <label htmlFor="status">Status</label>
-                <select id="status" name="status" value={formData.status} onChange={handleChange}>
-                    <option value="in_stock">In Stock</option>
-                    <option value="low_stock">Low Stock</option>
-                    <option value="out_of_stock">Out of Stock</option>
-                </select>
+            <label htmlFor="stock_in_Warehouse">Số lượng trong kho</label>
+            <input type="number" id="stock_in_Warehouse" name="stock_in_Warehouse" value={formData.stock_in_Warehouse} onChange={handleChange}/>
             </div>
         </div>
 
         <div className="form-row">
             <div className="form-group">
-                <label htmlFor="unit">Unit</label>
+                <label htmlFor="unit">đơn vị</label>
                 <input type="text" id="unit" name="unit" value={formData.unit} onChange={handleChange} />
             </div>
             <div className="form-group">

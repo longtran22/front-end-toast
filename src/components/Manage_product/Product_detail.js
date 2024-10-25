@@ -138,21 +138,21 @@ const ProductDetail = ({ product, onClose, onUpdate }) => {
                 <span className="close-button" onClick={onClose}>&times;</span>
                 {!isEditing ? (
                     <div className="product-info">
-                        <h2>name : {products.name}</h2>
-                        <p><strong>Category:</strong> {products.category}</p>
-                        <p><strong>Brand:</strong> {products.brand}</p>
-                        <p><strong>SKU:</strong> {products.sku}</p>
-                        <p><strong>Price:</strong> ${products.price}</p>
-                        <p><strong>Stock:</strong> {products.stock}</p>
-                        <p><strong>Reorder Level:</strong> {products.reorderLevel}</p>
-                        <p><strong>Supplier:</strong> {products.supplier}</p>
-                        <p><strong>Purchase Date:</strong> {new Date(products.purchaseDate).toLocaleDateString()}</p>
-                        <p><strong>Location:</strong> {products.location}</p>
-                        <p><strong>Status:</strong> {products.status}</p>
-                        <p><strong>Unit:</strong> {products.unit}</p>
-                        <p><strong>Purchase Price:</strong> ${products.purchasePrice}</p>
-                        <p><strong>Notes:</strong> {products.notes}</p>
-                        <p><strong>Link image :</strong> {products.image?products.image.secure_url:""}</p>
+                        <h2 style={{whiteSpace:"wrap"}}>Tên : {products.name}</h2>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Loại:</strong> {products.category}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Thương hiệu:</strong> {products.brand}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Mã:</strong> {products.sku}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Giá bán:</strong> ${products.price}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>số lượng trên kệ:</strong> {products.stock_in_shelf}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Mức độ cần được nhập hàng:</strong> {products.reorderLevel}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Nhà cung cấp:</strong> {products.supplier}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Ngày nhập:</strong> {new Date(products.purchaseDate).toLocaleDateString()}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Vị trí:</strong> {products.location}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Số lượng trong kho hàng:</strong> {products.stock_in_Warehouse}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Đơn vị:</strong> {products.unit}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Giá nhập:</strong> ${products.purchasePrice}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Notes:</strong> {products.notes}</p>
+                        <p style={{whiteSpace: "normal", overflowWrap: "break-word" }}><strong>Link ảnh :</strong> {products.image?products.image.secure_url:""}</p>
                         <img src={products.image?products.image.secure_url:"https://www.shutterstock.com/shutterstock/photos/600304136/display_1500/stock-vector-full-basket-of-food-grocery-shopping-special-offer-vector-line-icon-design-600304136.jpg"} alt="Product Image" className="product-image-show" /><br></br>
                         
                         <button className="edit-button-detail" onClick={handleEditToggle}>Edit</button>
@@ -162,59 +162,55 @@ const ProductDetail = ({ product, onClose, onUpdate }) => {
                         <h2>Edit Product</h2>
                         <form onSubmit={handleUpdate}>
                             <div className="form-group">
-                                <label htmlFor="name">Name *</label>
+                                <label htmlFor="name">Tên *</label>
                                 <input type="text" id="name" name="name" value={editData.name} onChange={handleChange} required />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="category">Category *</label>
+                                <label htmlFor="category">Loại *</label>
                                 <input type="text" id="category" name="category" value={editData.category} onChange={handleChange} required />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="brand">Brand</label>
+                                <label htmlFor="brand">Thương hiệu</label>
                                 <input type="text" id="brand" name="brand" value={editData.brand} onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="sku">SKU *</label>
+                                <label htmlFor="sku">Mã *</label>
                                 <input type="text" id="sku" name="sku" value={editData.sku} onChange={handleChange} required />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="price">Price *</label>
+                                <label htmlFor="price">Giá bán *</label>
                                 <input type="number" id="price" name="price" value={editData.price} onChange={handleChange} required />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="purchasePrice">Purchase Price</label>
+                                <label htmlFor="purchasePrice">Giá nhập</label>
                                 <input type="number" id="purchasePrice" name="purchasePrice" value={editData.purchasePrice} onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="stock">Stock</label>
-                                <input type="number" id="stock" name="stock" value={editData.stock} onChange={handleChange} />
+                                <label htmlFor="stock_in_shelf">Số lượng trên kệ</label>
+                                <input type="number" id="stock_in_shelf" name="stock_in_shelf" value={editData.stock_in_shelf} onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="reorderLevel">Reorder Level</label>
+                                <label htmlFor="reorderLevel">Số lượng cần được nhập hàng</label>
                                 <input type="number" id="reorderLevel" name="reorderLevel" value={editData.reorderLevel} onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="supplier">Supplier</label>
+                                <label htmlFor="supplier">Nhà cung cấp</label>
                                 <input type="text" id="supplier" name="supplier" value={editData.supplier} onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="purchaseDate">Purchase Date</label>
+                                <label htmlFor="purchaseDate">Ngày nhập</label>
                                 <input type="date" id="purchaseDate" name="purchaseDate" value={editData.purchaseDate} onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="location">Location</label>
+                                <label htmlFor="location">Vị trí</label>
                                 <input type="text" id="location" name="location" value={editData.location} onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="status">Status</label>
-                                <select id="status" name="status" value={editData.status} onChange={handleChange}>
-                                    <option value="in_stock">In Stock</option>
-                                    <option value="low_stock">Low Stock</option>
-                                    <option value="out_of_stock">Out of Stock</option>
-                                </select>
+                            <label htmlFor="stock_in_Warehouse">Số lượng trong kho hàng</label>
+                            <input type="number" id="stock_in_Warehouse" name="stock_in_Warehouse" value={editData.stock_in_Warehouse} onChange={handleChange} />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="unit">Unit</label>
+                                <label htmlFor="unit">đơn vị</label>
                                 <input type="text" id="unit" name="unit" value={editData.unit} onChange={handleChange} />
                             </div>
                             <div className="form-group">
