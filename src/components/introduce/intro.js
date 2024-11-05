@@ -10,6 +10,11 @@ import {useAuth} from '../introduce/useAuth'
 import Forgot_password from "./forgot_password"
 import Change_password from "./resetpassword"
 import {useLoading} from "./Loading"
+
+
+import { notify } from '../Notification/notification';
+
+
 function LoginModal({ off, isSignup }) {
   // Sử dụng state để điều khiển hiển thị modal và form
   const { startLoading, stopLoading } = useLoading();
@@ -29,18 +34,137 @@ function LoginModal({ off, isSignup }) {
     setError('');
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  // const submit_log = (e) => {
+  //   e.preventDefault();
+  //   if (isSignup) {
+  //     if (formData.password !== formData.confirmPassword) {
+  //       setError("Mật khẩu khác với xác nhận mật khẩu");
+  //     } else {
+  //       const body = {
+  //         email: formData.email,
+  //         password: formData.password,
+  //         name: formData.username,
+  //         confirm:confirm,
+  //         code:formData.code
+  //       };
+  //       console.log(body);
+  //       startLoading();
+  //       fetch("http://localhost:5000/login/sign_up", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(body),
+  //       })
+  //         .then((response) => response.json())
+  //         .then((data) => {
+  //           stopLoading();
+  //           if (data.message === "User created successfully") {
+  //             // Lưu dữ liệu user vào Cookies
+  //             if(confirm){
+  //             Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
+  //             login(data.user)
+  //             navigate('/home');
+  //             }else{
+  //               setConfirm(true)
+  //             }
+
+  //           } else {
+  //             setError(data.message);
+  //           }
+  //         })
+  //         .catch((error) => {
+  //           console.error('Lỗi:', error);
+  //         });
+  //     }
+  //   } else {
+  //     const body = {
+  //       email: formData.email,
+  //       password: formData.password,
+  //     };
+  //     console.log(formData);
+  //     startLoading();
+  //     fetch("http://localhost:5000/login/login_raw", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(body),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         stopLoading();
+  //         console.log(data.user);
+  //         console.log(data.message)
+  //         if (data.message === "Login successful") {
+  //           // Lưu dữ liệu user vào Cookies
+  //           Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
+  //           login(data.user)
+  //           navigate('/home');
+  //         } else {
+  //           setError("Email hoặc mật khẩu của bạn không hợp lệ");
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error('Lỗi:', error);
+  //       });
+  //   }
+  // };
+  
+  
+  // //google
+  // const responseMessage = (response) => {
+  //   const credential = response.credential;
+  //   const decoded = jwtDecode(credential);
+  //   console.log(decoded)
+  //   const body = {
+  //     family_name: decoded.family_name,
+  //     given_name: decoded.given_name,
+  //     GoogleID: decoded.sub,
+  //     email: decoded.email,
+  //   };
+  //   console.log(JSON.stringify(body));
+  //   startLoading();
+  //   fetch("http://localhost:5000/login/login_google", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(body),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       stopLoading()
+  //       console.log(data);
+  //       if (data.message === "Login successful"||data.message === "User created successfully") {
+  //         // Lưu dữ liệu user vào Cookies
+  //         Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
+  //         login(data.user)
+  //         navigate('/home');
+  //       } else {
+  //         setError("Email hoặc mật khẩu của bạn không hợp lệ");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log("Lỗi:", error);
+  //     });
+  // };
+ 
   const submit_log = (e) => {
     e.preventDefault();
     if (isSignup) {
       if (formData.password !== formData.confirmPassword) {
         setError("Mật khẩu khác với xác nhận mật khẩu");
+
+        notify(2, "Mật khẩu không khớp", "Lỗi"); // Thông báo lỗi
+
       } else {
         const body = {
           email: formData.email,
           password: formData.password,
           name: formData.username,
-          confirm:confirm,
-          code:formData.code
+          confirm: confirm,
+          code: formData.code
         };
         console.log(body);
         startLoading();
@@ -55,21 +179,23 @@ function LoginModal({ off, isSignup }) {
           .then((data) => {
             stopLoading();
             if (data.message === "User created successfully") {
-              // Lưu dữ liệu user vào Cookies
-              if(confirm){
-              Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
-              login(data.user)
-              navigate('/home');
-              }else{
-                setConfirm(true)
+              if (confirm) {
+                Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
+                login(data.user);
+                notify(1, "Đăng ký thành công", "Thông báo"); // Thông báo thành công
+                navigate('/home');
+              } else {
+                setConfirm(true);
               }
-
             } else {
               setError(data.message);
+              notify(2, data.message, "Lỗi"); // Thông báo lỗi
             }
           })
           .catch((error) => {
+            stopLoading();
             console.error('Lỗi:', error);
+            notify(2, "Đã xảy ra lỗi khi đăng ký", "Lỗi"); // Thông báo lỗi
           });
       }
     } else {
@@ -90,28 +216,29 @@ function LoginModal({ off, isSignup }) {
         .then((data) => {
           stopLoading();
           console.log(data.user);
-          console.log(data.message)
+          console.log(data.message);
           if (data.message === "Login successful") {
-            // Lưu dữ liệu user vào Cookies
             Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
-            login(data.user)
+            login(data.user);
+            notify(1, "Đăng nhập thành công", "Thông báo"); // Thông báo thành công
             navigate('/home');
           } else {
             setError("Email hoặc mật khẩu của bạn không hợp lệ");
+            notify(2, "Email hoặc mật khẩu không hợp lệ", "Lỗi"); // Thông báo lỗi
           }
         })
         .catch((error) => {
+          stopLoading();
           console.error('Lỗi:', error);
+          notify(2, "Đã xảy ra lỗi khi đăng nhập", "Lỗi"); // Thông báo lỗi
         });
     }
   };
-  
-  
-  //google
+
   const responseMessage = (response) => {
     const credential = response.credential;
     const decoded = jwtDecode(credential);
-    console.log(decoded)
+    console.log(decoded);
     const body = {
       family_name: decoded.family_name,
       given_name: decoded.given_name,
@@ -129,21 +256,25 @@ function LoginModal({ off, isSignup }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        stopLoading()
+        stopLoading();
         console.log(data);
-        if (data.message === "Login successful"||data.message === "User created successfully") {
-          // Lưu dữ liệu user vào Cookies
+        if (data.message === "Login successful" || data.message === "User created successfully") {
           Cookies.set("user", JSON.stringify(data.user), { expires: 7, secure: true, sameSite: 'Strict' });
-          login(data.user)
+          login(data.user);
+          notify(1, "Đăng nhập thành công", "Thông báo"); // Thông báo thành công
           navigate('/home');
         } else {
           setError("Email hoặc mật khẩu của bạn không hợp lệ");
+          notify(2, "Email hoặc mật khẩu không hợp lệ", "Lỗi"); // Thông báo lỗi
         }
       })
       .catch((error) => {
+        stopLoading();
         console.log("Lỗi:", error);
+        notify(2, "Đã xảy ra lỗi khi đăng nhập Google", "Lỗi"); // Thông báo lỗi
       });
   };
+  
   
 
   const errorMessage = (error) => {
