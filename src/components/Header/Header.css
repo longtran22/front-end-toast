@@ -10,13 +10,35 @@
     top: 0;
     z-index: 20;
   }
+  .header__notify {
+    position: relative;
+  }
+  
+  .header__notify p {
+    position: absolute;
+    bottom: -25px; /* Khoảng cách 25px dưới quả chuông để không bị dính sát */
+    left: 0;
+    font-size: 12px;
+    color: #333;
+    margin: 0;
+    z-index: 10; /* Đảm bảo phần tử p luôn hiển thị trên các phần tử khác */
+  }
+  
   
   .header__right{
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  
+  .header__notifys{
+    margin-right: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .header__setting, .header__notify, .header__user {
     margin-right: 20px;
     cursor: pointer;
@@ -32,3 +54,4 @@
     justify-content: center;
     align-items: center;
   }
+

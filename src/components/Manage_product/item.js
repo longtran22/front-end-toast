@@ -138,6 +138,7 @@ const ProductGrid = ({ selectedCategory ,reload, searchTerm,sortByA,sortByB}) =>
             <div className="product-card">
               <img src={product.image?product.image.secure_url:"https://www.shutterstock.com/shutterstock/photos/600304136/display_1500/stock-vector-full-basket-of-food-grocery-shopping-special-offer-vector-line-icon-design-600304136.jpg"} alt="Product Image" className="product-image" />
               <h3 className="product-name">{product.name}</h3>
+              <h3 className="product-category">{product.category}</h3>       
               <div className="actions">
                 <button className="action-button edit-button" onClick={()=>show(product._id)}>chi tiết</button>
                 <button className="action-button delete-button" onClick={()=>SetFdelete(product)}>Xóa</button>

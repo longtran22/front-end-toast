@@ -80,6 +80,7 @@ const ProductForm = ({turnoff,refresh}) => {
     image:""
   });
 
+  
   const handleChange = (e) => {setError("")
     const { name, value } = e.target;
     setFormData({
